@@ -4,8 +4,11 @@ import android.graphics.Color
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import me.jingbin.byrecyclerview.R
@@ -14,7 +17,7 @@ import me.jingbin.byrecyclerview.databinding.StickyrvItemMainFeedsBinding
 import me.jingbin.library.adapter.BaseByRecyclerViewAdapter
 import me.jingbin.library.adapter.BaseByViewHolder
 
-class StickAdapter(private val activity: AppCompatActivity) : BaseByRecyclerViewAdapter<String, BaseByViewHolder<String>>() {
+class StickAdapter(private val activity: AppCompatActivity) :RecyclerView.Adapter<ViewHolder>() {
 
     private var tabsLoaded = false
     private var loadingTabsListener: (() -> Unit)? = null
@@ -35,20 +38,17 @@ class StickAdapter(private val activity: AppCompatActivity) : BaseByRecyclerView
         else -> VIEW_TYPE_FEEDS
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseByViewHolder<String> {
-        return when (viewType) {
-            VIEW_TYPE_LOADING_TABS -> LoadingViewHolder(parent, R.layout.stickyrv_item_loading_footer)
-            else -> FeedViewHolder(parent, R.layout.stickyrv_item_main_feeds, activity)
-        }
+     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    return when (viewType) {
+        VIEW_TYPE_LOADING_TABS -> LoadingViewHolder(parent, R.layout.stickyrv_item_loading_footer)
+        else -> FeedViewHolder(parent, R.layout.stickyrv_item_main_feeds, activity)
     }
-
-    override fun onBindViewHolder(holder: BaseByViewHolder<String>, position: Int) {
-//        super.onBindViewHolder(holder, position)
+    }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (holder is LoadingViewHolder) {
             loadingTabsListener?.invoke()
         }
     }
-
     /**信息流*/
     class FeedViewHolder(viewGroup: ViewGroup?, layoutId: Int, activity: AppCompatActivity) :
             BaseBindingHolder<String, StickyrvItemMainFeedsBinding>(viewGroup, layoutId) {
@@ -129,6 +129,6 @@ class StickAdapter(private val activity: AppCompatActivity) : BaseByRecyclerView
 
     fun onTabsLoaded() {
         tabsLoaded = true
-        refreshNotifyItemChanged(0)
+       notifyItemChanged(0)
     }
 }

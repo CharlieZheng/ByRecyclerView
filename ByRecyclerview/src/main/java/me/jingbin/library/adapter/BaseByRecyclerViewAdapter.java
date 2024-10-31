@@ -163,7 +163,8 @@ public abstract class BaseByRecyclerViewAdapter<T, K extends BaseByViewHolder> e
      * list列表数据头部的view数量：RefreshView + HeaderView + EmptyView
      */
     public int getCustomTopItemViewCount() {
-        if (mRecyclerView != null) {
+
+        if (mRecyclerView != null&&false) {
             return mRecyclerView.getCustomTopItemViewCount();
         } else {
             return 0;

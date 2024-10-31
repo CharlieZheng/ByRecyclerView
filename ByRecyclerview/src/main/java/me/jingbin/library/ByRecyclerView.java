@@ -503,27 +503,28 @@ public class ByRecyclerView extends RecyclerView {
 
         @Override
         public void onItemRangeInserted(int positionStart, int itemCount) {
-            mWrapAdapter.notifyItemRangeInserted(positionStart, itemCount);
+            mWrapAdapter.notifyItemRangeInserted(positionStart+getCustomTopItemViewCount(), itemCount);
         }
 
         @Override
         public void onItemRangeChanged(int positionStart, int itemCount) {
-            mWrapAdapter.notifyItemRangeChanged(positionStart, itemCount);
+            mWrapAdapter.notifyItemRangeChanged(positionStart+getCustomTopItemViewCount(), itemCount);
         }
 
         @Override
         public void onItemRangeChanged(int positionStart, int itemCount, Object payload) {
-            mWrapAdapter.notifyItemRangeChanged(positionStart, itemCount, payload);
+            mWrapAdapter.notifyItemRangeChanged(positionStart+getCustomTopItemViewCount(), itemCount, payload);
         }
 
         @Override
         public void onItemRangeRemoved(int positionStart, int itemCount) {
-            mWrapAdapter.notifyItemRangeRemoved(positionStart, itemCount);
+            mWrapAdapter.notifyItemRangeRemoved(positionStart+getCustomTopItemViewCount(), itemCount);
         }
 
         @Override
         public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
-            mWrapAdapter.notifyItemMoved(fromPosition, toPosition);
+            final int customTopItemViewCount= getCustomTopItemViewCount();
+            mWrapAdapter.notifyItemMoved(fromPosition+customTopItemViewCount, toPosition+customTopItemViewCount);
         }
     }
 
@@ -729,7 +730,7 @@ public class ByRecyclerView extends RecyclerView {
             return adapter.onFailedToRecycleView(holder);
         }
 
-        @Override
+        /*@Override
         public void unregisterAdapterDataObserver(@NonNull AdapterDataObserver observer) {
             adapter.unregisterAdapterDataObserver(observer);
         }
@@ -737,7 +738,7 @@ public class ByRecyclerView extends RecyclerView {
         @Override
         public void registerAdapterDataObserver(@NonNull AdapterDataObserver observer) {
             adapter.registerAdapterDataObserver(observer);
-        }
+        }*/
 
         private class SimpleViewHolder extends BaseByViewHolder {
             SimpleViewHolder(View itemView) {
